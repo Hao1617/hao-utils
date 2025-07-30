@@ -1,16 +1,22 @@
 {
-  "repositories": [
+  "name": "gongying/utils",
+  "description": "A collection of PHP utility classes like StrHelper, NetHelper, DebugHelper, etc.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
     {
-      "type": "vcs",
-      "url": "https://gitee.com/Hao1617/Gongying-Utils.git"
+      "name": "ChenHao Li",
+      "email": "1617614731@qq.com"
     }
   ],
-  "require": {
-    "hao1617/utils": "dev-main"
-  },
   "autoload": {
     "psr-4": {
-      "Gongying\\Utils\\": "vendor/hao1617/utils/src/"
+      "Gongying\\Utils\\": "src/"
     }
-  }
+  },
+  "require": {
+    "php": ">=7.2"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
