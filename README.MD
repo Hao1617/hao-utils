@@ -1,17 +1,18 @@
 # Gongying Utils 工具库
 
-这是一个由个人维护的 PHP 原生工具类集合，适用于日常开发中的常见需求，如：
+一个由个人维护的 PHP 原生工具类集合，适用于日常开发中常见需求，支持 Composer 方式加载。主要功能包括：
 
-- 字符串操作
-- 网络请求封装（基于 cURL）
-- 调试工具（`dd()`、日志输出）
-- 唯一 ID 生成（支持 UUID、Snowflake 雪花ID）
+- 🔠 字符串处理（前缀/后缀匹配、随机串、UUID、雪花ID）
+- 🌐 网络请求封装（基于 cURL）
+- 🐞 调试工具（dd/dump/json/log）
+- 📦 数组处理工具（键值提取、多维访问）
+- 📆 时间日期处理（当前时间、是否为今日、剩余秒数）
 
 ---
 
-## 📦 安装方式（通过 GitHub 私有仓库）
+## 📦 安装方式（Composer + GitHub）
 
-在你的项目 `composer.json` 中添加：
+在你的项目 `composer.json` 中添加私有仓库地址：
 
 ```json
 {
@@ -30,3 +31,8 @@
     }
   }
 }
+```
+
+## 然后执行安装：
+
+- composer require hao1617/utils:dev-main
