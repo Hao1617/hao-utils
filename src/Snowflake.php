@@ -3,37 +3,48 @@ namespace Gongying\Utils;
 
 class Snowflake
 {
-    protected int $datacenterId;
-    protected int $workerId;
-    protected int $sequence = 0;
-    protected int $lastTimestamp = -1;
+    protected $datacenterId;
+    protected $workerId;
+    protected $sequence = 0;
+    protected $lastTimestamp = -1;
 
-    protected const EPOCH = 1609459200000; // 自定义起始时间：2021-01-01
+    const EPOCH = 1609459200000; // 可自定义起始时间（2021-01-01）
+    const DATACENTER_ID_BITS = 5;
+    const WORKER_ID_BITS = 5;
+    const SEQUENCE_BITS = 12;
 
-    public function __construct(int $datacenterId = 1, int $workerId = 1)
+    const MAX_DATACENTER_ID = -1 ^ (-1 << self::DATACENTER_ID_BITS);
+    const MAX_WORKER_ID = -1 ^ (-1 << self::WORKER_ID_BITS);
+
+    const WORKER_ID_SHIFT = self::SEQUENCE_BITS;
+    const DATACENTER_ID_SHIFT = self::SEQUENCE_BITS + self::WORKER_ID_BITS;
+    const TIMESTAMP_LEFT_SHIFT = self::SEQUENCE_BITS + self::WORKER_ID_BITS + self::DATACENTER_ID_BITS;
+    const SEQUENCE_MASK = -1 ^ (-1 << self::SEQUENCE_BITS);
+
+    public function __construct($datacenterId, $workerId)
     {
-        // 限制最大值（5位 -> 0~31）
-        if ($datacenterId > 31 || $workerId > 31) {
-            throw new \Exception("datacenterId and workerId must be between 0 and 31");
+        if ($datacenterId > self::MAX_DATACENTER_ID || $datacenterId < 0) {
+            throw new \Exception("Datacenter ID out of range");
+        }
+        if ($workerId > self::MAX_WORKER_ID || $workerId < 0) {
+            throw new \Exception("Worker ID out of range");
         }
 
         $this->datacenterId = $datacenterId;
         $this->workerId = $workerId;
     }
 
-    public function nextId(): int
+    public function nextId()
     {
         $timestamp = $this->timeGen();
 
         if ($timestamp < $this->lastTimestamp) {
-            throw new \Exception("Clock moved backwards. Refusing to generate id");
+            throw new \Exception("Clock moved backwards.");
         }
 
-        if ($timestamp === $this->lastTimestamp) {
-            $this->sequence = ($this->sequence + 1) & 0xfff; // 12 位序列 = 4095
-
-            if ($this->sequence === 0) {
-                // 等待下一毫秒
+        if ($this->lastTimestamp == $timestamp) {
+            $this->sequence = ($this->sequence + 1) & self::SEQUENCE_MASK;
+            if ($this->sequence == 0) {
                 $timestamp = $this->waitNextMillis($this->lastTimestamp);
             }
         } else {
@@ -42,16 +53,13 @@ class Snowflake
 
         $this->lastTimestamp = $timestamp;
 
-        // 位移构造最终 ID
-        return (
-            (($timestamp - self::EPOCH) << 22) |
-            ($this->datacenterId << 17) |
-            ($this->workerId << 12) |
-            $this->sequence
-        );
+        return (($timestamp - self::EPOCH) << self::TIMESTAMP_LEFT_SHIFT)
+            | ($this->datacenterId << self::DATACENTER_ID_SHIFT)
+            | ($this->workerId << self::WORKER_ID_SHIFT)
+            | $this->sequence;
     }
 
-    protected function waitNextMillis(int $lastTimestamp): int
+    protected function waitNextMillis($lastTimestamp)
     {
         $timestamp = $this->timeGen();
         while ($timestamp <= $lastTimestamp) {
@@ -60,8 +68,8 @@ class Snowflake
         return $timestamp;
     }
 
-    protected function timeGen(): int
+    protected function timeGen()
     {
-        return (int) floor(microtime(true) * 1000);
+        return (int) (microtime(true) * 1000);
     }
 }

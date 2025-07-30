@@ -7,6 +7,7 @@ namespace Gongying\Utils;
  */
 class StrHelper
 {
+    protected static $snowflakeInstances = [];
     /**
      * 判断字符串是否以指定子串开头
      *
@@ -103,7 +104,11 @@ class StrHelper
      */
     public static function snowflakeId(int $datacenterId = 1, int $workerId = 1): int
     {
-        $generator = new Snowflake($datacenterId, $workerId);
-        return $generator->nextId();
+        $key = $datacenterId . '-' . $workerId;
+        if (!isset(self::$snowflakeInstances[$key])) {
+            self::$snowflakeInstances[$key] = new Snowflake($datacenterId, $workerId);
+        }
+
+        return self::$snowflakeInstances[$key]->nextId();
     }
 }
