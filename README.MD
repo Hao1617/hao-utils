@@ -19,7 +19,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/Hao1617/Utils.git"
+      "url": "https://gitee.com/Hao1617/Gongying-Utils.git"
     }
   ],
   "require": {
