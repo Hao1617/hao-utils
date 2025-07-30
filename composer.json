@@ -1,0 +1,16 @@
+{
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/Hao1617/Utils.git"
+    }
+  ],
+  "require": {
+    "hao1617/utils": "dev-main"
+  },
+  "autoload": {
+    "psr-4": {
+      "Gongying\\Utils\\": "vendor/hao1617/utils/src/"
+    }
+  }
+}
