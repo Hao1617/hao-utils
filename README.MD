@@ -7,10 +7,8 @@
 ## 📦 安装方式（使用 GitHub 仓库）
 
 ```bash
-composer require hao1617/utils:dev-main
+composer require hao1617/utils
 ```
-
-> 如果使用 Packagist，替换为正式版本号：`composer require hao1617/utils:^2.0`
 
 ---
 
