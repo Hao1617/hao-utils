@@ -1,7 +1,7 @@
 <?php
 namespace Hao1617\Utils;
 
-class NetHelper
+class HttpHelper
 {
     /**
      * 发起 GET 请求
