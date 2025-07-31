@@ -1,6 +1,6 @@
 <?php
 
-namespace Hao\Utils;
+namespace Hao1617\Utils;
 
 /**
  * Class DateHelper
