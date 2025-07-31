@@ -1,6 +1,6 @@
 <?php
 
-namespace Gongying\Utils;
+namespace Hao\Utils;
 
 /**
  * Class DateHelper

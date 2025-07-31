@@ -1,4 +1,4 @@
-# Gongying Utils 工具库
+# Hao Utils 工具库
 
 一个由个人维护的 PHP 原生工具类集合，适用于日常开发中常见需求，支持 Composer 方式加载。主要功能包括：
 
@@ -19,7 +19,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://gitee.com/Hao1617/Gongying-Utils.git"
+      "url": "https://gitee.com/Hao1617/Hao-Utils.git"
     }
   ],
   "require": {
@@ -27,7 +27,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Gongying\\Utils\\": "vendor/hao1617/utils/src/"
+      "Hao\\Utils\\": "vendor/hao1617/utils/src/"
     }
   }
 }

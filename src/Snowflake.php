@@ -1,5 +1,5 @@
 <?php
-namespace Gongying\Utils;
+namespace Hao\Utils;
 
 class Snowflake
 {
